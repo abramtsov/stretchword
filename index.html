@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <title>Stretch hover effect</title>
+    <style>
+        body {
+            background-color: lightblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+
+        }
+
+        input {
+            max-width: 50%;
+            min-width: 30%;
+            padding: 1rem;
+            border-radius: 1rem;
+            font-size: 1rem;
+            border: none
+        }
+
+        div {
+            max-width: 75%;
+            min-width: 75%;
+            height: auto;
+            box-sizing: content-box;
+            display: flex;
+            background-color: azure;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 2rem;
+            align-items: center;
+            display: none;
+            height: fit-content;
+            max-height: 50%;
+            overflow-y: scroll;
+            border-radius: 1rem;
+        }
+
+        span {
+            padding: 0 .4rem;
+            font-size: 3rem;
+            transition: .1s linear;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+        }
+
+        span:hover {
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" placeholder="Enter you text">
+    <div></div>
+    <script>
+        let arr = [],
+            str,
+            arrSpan;
+        document.querySelector('input').addEventListener('input', () => {
+            str = document.querySelector('input').value;
+            arr = str.split('')
+            document.querySelector('div').innerHTML = ""
+            document.querySelector('div').style = "display:flex"
+            if (!str) document.querySelector('div').style = "display:none"
+            for (key of arr) {
+                arrSpan = document.createElement('span');
+                if (key === ' ') key = `\u00A0`;
+                arrSpan.innerText = key;
+                document.querySelector('div').append(arrSpan)
+            }
+            document.querySelector('div').addEventListener('mouseover', (e) => {
+                if (e.target.tagName == 'SPAN') {
+                    if (e.target.innerHTML == '&nbsp;') return;
+                    e.target.style = "transform: scale(1.7,1)"
+                    if (e.target.previousElementSibling) {
+                        if (e.target.previousElementSibling.innerHTML == '&nbsp;') {
+                            e.target.previousElementSibling.previousElementSibling.style = "transform: scale(1.3,1)";
+                        }
+                        e.target.previousElementSibling.style = "transform: scale(1.3,1)";
+                    }
+                    if (e.target.nextElementSibling) {
+                        if (e.target.nextElementSibling.innerHTML == '&nbsp;') {
+                            e.target.nextElementSibling.nextElementSibling.style = "transform: scale(1.3,1)";
+                        }
+                        e.target.nextElementSibling.style = "transform: scale(1.3,1)";
+                    }
+                }
+
+            })
+            document.querySelector('div').addEventListener('mouseout', (e) => {
+                for (span of document.querySelectorAll('span')) {
+                    span.style = "transform: scale(1)";
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
